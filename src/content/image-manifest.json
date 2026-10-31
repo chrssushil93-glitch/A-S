@@ -1,0 +1,67 @@
+{
+  "album/forever-01": {
+    "src": "/images/album/forever-01.jpg",
+    "width": 1537,
+    "height": 1023
+  },
+  "album/forever-02": {
+    "src": "/images/album/forever-02.jpg",
+    "width": 1672,
+    "height": 941
+  },
+  "album/together-01": {
+    "src": "/images/album/together-01.jpg",
+    "width": 1023,
+    "height": 1537
+  },
+  "album/together-02": {
+    "src": "/images/album/together-02.jpg",
+    "width": 1672,
+    "height": 941
+  },
+  "album/together-03": {
+    "src": "/images/album/together-03.jpg",
+    "width": 1672,
+    "height": 941
+  },
+  "couple/our-story-01": {
+    "src": "/images/couple/our-story-01.jpg",
+    "width": 1023,
+    "height": 1537
+  },
+  "couple/our-story-02": {
+    "src": "/images/couple/our-story-02.jpg",
+    "width": 1023,
+    "height": 1537
+  },
+  "couple/our-story-03": {
+    "src": "/images/couple/our-story-03.jpg",
+    "width": 1023,
+    "height": 1537
+  },
+  "couple/our-story-04": {
+    "src": "/images/couple/our-story-04.jpg",
+    "width": 1023,
+    "height": 1537
+  },
+  "cover/album-cover": {
+    "src": "/images/cover/album-cover.jpg",
+    "width": 1023,
+    "height": 1537
+  },
+  "cover/closing": {
+    "src": "/images/cover/closing.jpg",
+    "width": 1672,
+    "height": 941
+  },
+  "cover/featured": {
+    "src": "/images/cover/featured.jpg",
+    "width": 1023,
+    "height": 1537
+  },
+  "details/little-01": {
+    "src": "/images/details/little-01.jpg",
+    "width": 1023,
+    "height": 1537
+  }
+}

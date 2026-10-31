@@ -1,0 +1,408 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens ---------- */
+:root {
+  --ivory: #f7f2ea;
+  --paper: #fffcf7;
+  --gold: #c6a46a;
+  --gold-deep: #8f7239; /* AA-contrast gold for small text on ivory */
+  --burgundy: #54263a;
+  --espresso: #302720;
+  --rose: #d7b9b2;
+  --taupe: #a89b8b;
+  --taupe-deep: #6d6256; /* AA-contrast taupe for text */
+
+  /* Motion system */
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-page: cubic-bezier(0.45, 0.05, 0.25, 1);
+  --dur-fast: 180ms;
+  --dur-base: 420ms;
+  --dur-slow: 900ms;
+  --dur-page: 1100ms;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+@theme inline {
+  --color-ivory: var(--ivory);
+  --color-paper: var(--paper);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-burgundy: var(--burgundy);
+  --color-espresso: var(--espresso);
+  --color-rose: var(--rose);
+  --color-taupe: var(--taupe);
+  --color-taupe-deep: var(--taupe-deep);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --ease-soft: var(--ease-soft);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--ivory);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--ivory);
+  color: var(--espresso);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--rose);
+  color: var(--espresso);
+}
+
+/* Visible, consistent focus */
+:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--gold);
+}
+
+/* ---------- Typographic utilities ---------- */
+.font-display {
+  font-family: var(--font-serif), "Cormorant Garamond", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+.eyebrow {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.t-hero {
+  font-size: clamp(2.8rem, 9vw + 0.5rem, 8.5rem);
+}
+.t-title {
+  font-size: clamp(2rem, 4.2vw + 0.5rem, 4.25rem);
+}
+.t-lead {
+  font-size: clamp(1.15rem, 1vw + 0.9rem, 1.6rem);
+  line-height: 1.5;
+}
+.italic-serif {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.8;
+}
+
+/* Subtle paper grain, pure CSS data-URI (no external request) */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.19  0 0 0 0 0.15  0 0 0 0 0.12  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.grain-light::after {
+  mix-blend-mode: screen;
+  opacity: 0.09;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.85rem 1.9rem;
+  border: 1px solid currentColor;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  transition: background var(--dur-base) var(--ease-soft), color var(--dur-base) var(--ease-soft),
+    border-color var(--dur-base) var(--ease-soft), transform var(--dur-fast) var(--ease-soft);
+  cursor: pointer;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-gold:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--espresso);
+}
+.btn-dark:hover {
+  background: var(--espresso);
+  border-color: var(--espresso);
+  color: var(--ivory);
+}
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  transition: background var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft),
+    opacity var(--dur-fast);
+  cursor: pointer;
+}
+.icon-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  border-color: currentColor;
+}
+.icon-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Scroll reveal: only applied when JS has marked <html> as ready, so content is never hidden without JS */
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--dur-slow) var(--ease-soft), transform var(--dur-slow) var(--ease-soft);
+}
+.js-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Album 3D ---------- */
+/* The book is a stack of "leaves" (sheets) that rotate around the spine. See AlbumBook.tsx. */
+.book-scene {
+  perspective: 2600px;
+  perspective-origin: 50% 38%;
+}
+.book {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform var(--dur-page) var(--ease-page);
+}
+/* A closed book rests slightly turned and sits on the right half of the frame; shift it to centre. */
+.book[data-open="false"][data-mode="double"] {
+  transform: translateX(-25%) rotateX(4deg) rotateY(-9deg);
+}
+.book[data-open="false"][data-mode="single"] {
+  transform: rotateX(3deg) rotateY(-8deg);
+}
+.book-pages {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform-style: preserve-3d;
+}
+.book[data-mode="double"] .book-pages {
+  left: 50%;
+  width: 50%;
+}
+.book[data-mode="single"] .book-pages {
+  left: 0;
+  width: 100%;
+}
+.book-leaf {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition:
+    transform var(--dur-page) var(--ease-page) var(--turn-delay, 0ms),
+    z-index 0s linear calc(var(--dur-page) / 2 + var(--turn-delay, 0ms));
+  will-change: transform;
+}
+.book-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: var(--paper);
+}
+.book-face.is-back {
+  transform: rotateY(180deg);
+}
+.book-board {
+  position: absolute;
+  background: linear-gradient(145deg, #3b2f26 0%, #241c16 100%);
+  transition: opacity var(--dur-page) var(--ease-page);
+}
+.book-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 0.9%);
+  width: 1.8%;
+  background: linear-gradient(90deg, transparent, rgba(48, 39, 32, 0.28) 45%, rgba(48, 39, 32, 0.28) 55%, transparent);
+  pointer-events: none;
+  transition: opacity var(--dur-page) var(--ease-page);
+}
+.book-edge {
+  position: absolute;
+  top: 0.6%;
+  bottom: 0.6%;
+  background: repeating-linear-gradient(90deg, #fbf6ec 0 1px, #d9cfbf 1px 2px);
+  transition: width var(--dur-page) var(--ease-page);
+}
+.book-shadow {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: -4%;
+  height: 9%;
+  background: radial-gradient(ellipse at center, rgba(48, 39, 32, 0.38), transparent 68%);
+  filter: blur(10px);
+  pointer-events: none;
+  transition: transform var(--dur-page) var(--ease-page);
+}
+
+/* One printed page. It is its own size container so type and photographs scale with the book. */
+.album-page {
+  position: absolute;
+  inset: 0;
+  container-type: size;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tint, transparent) 16%, transparent), transparent 60%),
+    var(--paper);
+  color: var(--espresso);
+}
+.page-shade-right {
+  background: linear-gradient(90deg, rgba(48, 39, 32, 0.22) 0%, rgba(48, 39, 32, 0.06) 7%, transparent 18%);
+}
+.page-shade-left {
+  background: linear-gradient(270deg, rgba(48, 39, 32, 0.22) 0%, rgba(48, 39, 32, 0.06) 7%, transparent 18%);
+}
+/* Darkens a sheet while it is mid-turn so paper movement reads as depth. */
+@keyframes turn-shade {
+  0% { opacity: 0; }
+  45% { opacity: 0.38; }
+  100% { opacity: 0; }
+}
+.turn-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, rgba(48, 39, 32, 0.6), rgba(48, 39, 32, 0.05));
+  animation: turn-shade var(--dur-page) var(--ease-page) var(--turn-delay, 0ms) both;
+}
+.turn-shade.is-back {
+  background: linear-gradient(270deg, rgba(48, 39, 32, 0.6), rgba(48, 39, 32, 0.05));
+}
+
+/* Cover materials */
+.cover-leather {
+  background:
+    radial-gradient(120% 90% at 20% 10%, rgba(255, 255, 255, 0.07), transparent 55%),
+    linear-gradient(135deg, #43352b 0%, #2c231c 55%, #1d1611 100%);
+  color: var(--gold);
+}
+.foil {
+  color: var(--gold);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 236, 190, 0.35);
+}
+.foil-line {
+  border: 1px solid color-mix(in srgb, var(--gold) 75%, transparent);
+}
+
+/* Chapter pill in the navigator */
+.chapter-pill[aria-current="true"] {
+  color: var(--burgundy);
+  box-shadow: inset 0 -2px 0 var(--burgundy);
+  font-weight: 600;
+}
+
+/* Utility: hide scrollbars on horizontal strips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+
+/* ---------- Opening screen ---------- */
+.opening {
+  transition: opacity 900ms var(--ease-soft), transform 900ms var(--ease-soft), visibility 0s linear 900ms;
+}
+.opening[data-leaving="true"] {
+  opacity: 0;
+  transform: scale(1.035);
+  visibility: hidden;
+  pointer-events: none;
+}
+html[data-intro="seen"] .opening {
+  display: none;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.rise { animation: rise 1.3s var(--ease-soft) both; animation-delay: var(--d, 0ms); }
+.fade-in { animation: fade 1.6s var(--ease-soft) both; animation-delay: var(--d, 0ms); }
+.draw { transform-origin: center; animation: draw 1.6s var(--ease-soft) both; animation-delay: var(--d, 0ms); }
+/* Hero entrance waits until the opening screen has been dismissed. */
+.hero-rise { animation: rise 1.4s var(--ease-soft) both; animation-delay: var(--d, 0ms); animation-play-state: paused; }
+.no-js-hero .hero-rise { animation-play-state: running; }
+html[data-intro="seen"] .hero-rise,
+html[data-hero="go"] .hero-rise { animation-play-state: running; }
+
+section[id] { scroll-margin-top: 3.5rem; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    animation-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .book,
+  .book[data-open="false"][data-mode="double"],
+  .book[data-open="false"][data-mode="single"] {
+    transition: none !important;
+  }
+  .book[data-open="false"][data-mode="double"] {
+    transform: translateX(-25%);
+  }
+  .book[data-open="false"][data-mode="single"] {
+    transform: none;
+  }
+  .js-ready .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
