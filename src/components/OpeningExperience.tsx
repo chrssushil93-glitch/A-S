@@ -73,6 +73,11 @@ export function OpeningExperience() {
       />
       <div className="relative mx-auto grid min-h-dvh max-w-6xl items-center gap-10 px-8 pb-[max(3rem,var(--safe-bottom))] pt-[max(3.5rem,var(--safe-top))] sm:px-14 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="text-center lg:text-left">
+          {/* The couple's monogram draws itself in (CSS animation inside the SVG; stills for reduced motion). */}
+          <div className="fade-in mx-auto mb-7 w-28 sm:w-36 lg:mx-0" aria-hidden>
+            {/* eslint-disable-next-line @next/next/no-img-element -- animated SVG must not go through the image optimizer */}
+            <img src={reduce ? "/brand/sa-logo.svg" : "/brand/sa-logo-animated.svg"} alt="" width={598} height={598} className="h-auto w-full" />
+          </div>
           <p className="eyebrow rise text-gold" style={{ ["--d" as string]: "250ms" }}>
             The Wedding Archive
           </p>
