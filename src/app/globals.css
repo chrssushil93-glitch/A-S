@@ -437,3 +437,16 @@ section[id] { scroll-margin-top: 3.5rem; }
 .adm-bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px max(16px,calc(50% - 590px));padding-bottom:calc(14px + var(--safe-bottom));background:var(--paper);border-top:1px solid var(--taupe);font-size:.9rem}
 .adm-bar a{color:var(--burgundy)}
 @media (max-width:520px){.adm-h1{font-size:1.9rem}.adm-bar{flex-direction:column;align-items:stretch}}
+
+/* ---- StPageFlip (realistic page turning). Required structural styles + our paper ---- */
+.stf__parent { position: relative; display: block; box-sizing: border-box; transform: translateZ(0); touch-action: pan-y; }
+.stf__block { position: absolute; width: 100%; height: 100%; box-sizing: border-box; perspective: 2000px; }
+.stf__item { display: none; position: absolute; transform-style: preserve-3d; }
+.stf__outerShadow, .stf__innerShadow, .stf__hardShadow, .stf__hardInnerShadow { position: absolute; left: 0; top: 0; }
+.stf__parent canvas { position: absolute; width: 100%; height: 100%; left: 0; top: 0; }
+.stf-host { width: 100%; height: 100%; }
+.stf-sheet { background: var(--paper); overflow: hidden; }
+.stf-sheet[data-density="hard"] { background: #2c231c; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04); }
+.stf-fill { position: absolute; inset: 0; }
+.stf-outer { transition: transform var(--dur-page) var(--ease-page); }
+@media (prefers-reduced-motion: reduce) { .stf-outer { transition: none; } }

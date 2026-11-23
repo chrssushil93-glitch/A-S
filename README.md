@@ -2,7 +2,7 @@
 
 An editorial, book-style digital wedding album. Visitors open a 3D album, turn its pages, jump between chapters, view photographs full-size, and mark favourites.
 
-**Stack:** Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 4 · Motion · Lucide icons. The 3D book uses CSS 3D transforms (no WebGL), so it is light on phones and has no GPU-specific failure modes. Fonts (Cormorant Garamond, Manrope) are bundled locally; there are no third-party requests, analytics or trackers.
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 4 · Motion · Lucide icons. The album's page turning uses the open-source [StPageFlip](https://github.com/Nodlik/StPageFlip) library (`page-flip`, MIT): paper that bends and curls, live shadows, a hard cover, and drag-to-turn from the page corners. It is DOM/canvas based (no WebGL), so it is light on phones. Browsers without 3D support fall back to a flat album. Fonts (Cormorant Garamond, Manrope) are bundled locally; there are no third-party requests, analytics or trackers.
 
 ## Run it
 

@@ -43,6 +43,7 @@ export function AlbumViewer() {
   const { favourites, openFavourites } = usePhotos();
   const hydrated = useHydrated();
   const supports3D = useSupports3D();
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)", false);
   // Narrow or portrait screens get a single page at a time; the two-page spread would be unreadably small.
   const single = useMediaQuery("(max-width: 899px), (max-aspect-ratio: 5/4)", false);
   const mode: AlbumMode = single ? "single" : "double";
@@ -54,7 +55,6 @@ export function AlbumViewer() {
 
   // If the window is resized across the breakpoint, keep the visitor on the same spread.
   const f = nav.mode === mode ? nav.f : convertF(nav.f, nav.mode, mode, FLAT, PLAN);
-  const from = nav.mode === mode ? nav.from : f;
 
   const goTo = useCallback(
     (target: number) => {
@@ -222,7 +222,7 @@ export function AlbumViewer() {
 
         <div className="mt-8 flex justify-center" role="region" aria-roledescription="album" aria-label={`${site.siteTitle}, photo album`}>
           <ErrorBoundary fallback={<AlbumGridFallback />}>
-            <div className="group relative" style={sizeStyle} {...swipe}>
+            <div className="group relative" style={sizeStyle} {...(supports3D ? {} : swipe)}>
               <div className="absolute inset-0" style={{ touchAction: "pan-y" }}>
                 {supports3D ? (
                   <>
@@ -231,7 +231,14 @@ export function AlbumViewer() {
                       aria-hidden
                       style={{ transform: !open && mode === "double" ? "translateX(-25%)" : undefined }}
                     />
-                    <AlbumBook mode={mode} f={f} from={from} turn={nav.turn} flat={FLAT} plan={PLAN} onOpen={openCover} />
+                    {hydrated ? (
+                      <AlbumBook key={mode} mode={mode} f={f} flat={FLAT} plan={PLAN} onFlip={goTo} onOpen={openCover} reducedMotion={reduced} />
+                    ) : (
+                      // Until the page-turning library takes over, show the closed cover.
+                      <div className="absolute inset-y-0" style={mode === "double" ? { left: "25%", width: "50%" } : { left: 0, right: 0 }}>
+                        <AlbumCover />
+                      </div>
+                    )}
                   </>
                 ) : (
                   flatStage
