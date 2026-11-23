@@ -1,9 +1,12 @@
 import type { ImageFolder, Photo } from "@/lib/types";
 import rawManifest from "./image-manifest.json";
 import { site } from "./site";
+import rawOverrides from "./overrides.json";
 
 type ManifestEntry = { src: string; width?: number; height?: number };
 const manifest = rawManifest as Record<string, ManifestEntry>;
+/** Text and crop edits made in the admin console (src/content/overrides.json), keyed "folder/id". */
+const overrides = rawOverrides as Record<string, { alt?: string; focus?: string }>;
 
 interface PhotoOptions {
   alt: string;
@@ -24,6 +27,7 @@ export function photo(id: string, folder: ImageFolder, opts: PhotoOptions): Phot
   const entry = manifest[`${folder}/${id}`];
   const aspect =
     entry?.width && entry?.height ? entry.width / entry.height : (opts.aspect ?? 1.5);
+  const edit = overrides[`${folder}/${id}`];
   return {
     id,
     folder,
@@ -31,10 +35,10 @@ export function photo(id: string, folder: ImageFolder, opts: PhotoOptions): Phot
     width: entry?.width,
     height: entry?.height,
     aspect,
-    alt: opts.alt,
+    alt: edit?.alt || opts.alt,
     caption: opts.caption,
     date: opts.date,
-    focus: opts.focus,
+    focus: edit?.focus || opts.focus,
     downloadable: opts.downloadable ?? site.allowDownloads,
   };
 }

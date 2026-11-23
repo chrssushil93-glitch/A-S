@@ -2,6 +2,7 @@
 // and picks the first audio file in public/audio/ for src/content/audio-manifest.json.
 // Run automatically before `npm run dev` and `npm run build`; run manually with `npm run photos`.
 import { promises as fs } from "node:fs";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -48,7 +49,10 @@ for (const file of (await walk(imagesDir)).sort()) {
       console.warn(`[photos] could not read ${rel}: ${err.message}`);
     }
   }
-  manifest[`${folder}/${id}`] = { src: `/images/${rel}`, width, height };
+  // Content hash in the URL: a replaced photo gets a new address, so browsers and the image
+  // optimizer never serve the old picture from cache.
+  const v = createHash("sha1").update(await fs.readFile(file)).digest("hex").slice(0, 8);
+  manifest[`${folder}/${id}`] = { src: `/images/${rel}?v=${v}`, width, height };
 }
 
 await fs.mkdir(path.dirname(outFile), { recursive: true });

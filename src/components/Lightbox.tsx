@@ -54,7 +54,7 @@ export function Lightbox({ list, index, onIndex, onClose }: LightboxProps) {
   const isLoading = hasImage && loaded !== photo.id;
   const canZoom = hasImage && (photo.width ?? 0) >= 1400;
   const isFav = favourites.has(photo.id);
-  const ext = photo.src?.split(".").pop() ?? "jpg";
+  const ext = photo.src?.split("?")[0].split(".").pop() ?? "jpg";
   const filename = `${siteName.replace(/\s*&\s*/g, "-and-").toLowerCase()}-wedding-${photo.id}.${ext}`;
 
   return (
